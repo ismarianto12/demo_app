@@ -132,7 +132,7 @@ class Crud_pegawaiController extends Controller
         try {
             $d = Crud_pegawai::where('nip', $id)->update([
                 'nip' => $this->request->nip,
-                'divisi' => $this->request->divisi 
+                'divisi' => $this->request->divisi
             ]);
 
             return response()->json([
@@ -156,10 +156,10 @@ class Crud_pegawaiController extends Controller
     {
         //
         try {
-            if (is_array($id)) {
-                Crud_pegawai::whereIn('nip', $id)->delete();
+            if (is_array($this->request->id)) {
+                Crud_pegawai::whereIn('nip', $this->request->id)->delete();
             } else {
-                Crud_pegawai::where('nip', $id)->delete();
+                Crud_pegawai::where('nip', $this->request->id)->delete();
                 return response()->json([
                     'status' => 1, 'msg' => 'data berhasil di hapus'
                 ]);
