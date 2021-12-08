@@ -20,7 +20,7 @@
             <div class="form-group row">
                 <label for="name" class="col-md-2 text-left">Divisi <span class="required-label">*</span></label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" id="divisi" name="divisi">
+                    <input type="text" class="form-control" id="divisi" value="{{ $divisi }}" name="divisi">
                 </div>
             </div>
         </div>

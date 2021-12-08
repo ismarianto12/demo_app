@@ -9,5 +9,5 @@ class Crud_pegawai extends Model
 {
     use HasFactory;
     protected $table = 'crud_pegawai';
-    public $incrementing = [];
+    // public $incrementing = [];
 }

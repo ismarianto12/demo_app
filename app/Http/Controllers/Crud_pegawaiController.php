@@ -46,6 +46,7 @@ class Crud_pegawaiController extends Controller
     public function store()
     {
         //
+        // dd($this->request->all());
         try {
             $d = new Crud_pegawai;
             $d->nip = $this->request->nip;
@@ -71,10 +72,10 @@ class Crud_pegawaiController extends Controller
         $data = Crud_pegawai::get();
         return DataTables::of($data)
             ->editColumn('id', function ($p) {
-                return "<input type='checkbox' name='cbox[]' value='" . $p->id . "' />";
+                return "<input type='checkbox' name='cbox[]' value='" . $p->nip . "' />";
             })
             ->editColumn('action', function ($p) {
-                return  '<a href="" class="btn btn-warning btn-xs" id="edit" data-id="' . $p->id . '"><i class="fa fa-edit"></i>Edit </a> ';
+                return  '<a href="" class="btn btn-warning btn-xs" id="edit" data-id="' . $p->nip . '"><i class="fa fa-edit"></i>Edit </a> ';
             }, true)
             ->editColumn('gambar', function ($p) {
                 return '<img src="' . asset('file/gambar/' . $p->img) . '" alt="..."
@@ -106,12 +107,15 @@ class Crud_pegawaiController extends Controller
     public function edit($id)
     {
         //
-        $d = Crud_pegawai::find($id);
+        $d = Crud_pegawai::where('nip', $id)->firstOrFail();
 
         return view($this->view . '.form_edit', [
             'title' => 'Edit data',
+            'id' => $d->nip,
             'nip' => $d->nip,
-            'divisi' => $d->divisi
+            'divisi' => $d->divisi,
+            'nama' => $d->nama,
+
         ]);
     }
 
@@ -122,14 +126,14 @@ class Crud_pegawaiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
         try {
-            $d = Crud_pegawai::find($id);
-            $d->nip = $this->request->nip;
-            $d->divisi = $this->request->divisi;
-            $d->save();
+            $d = Crud_pegawai::where('nip', $id)->update([
+                'nip' => $this->request->nip,
+                'divisi' => $this->request->divisi 
+            ]);
 
             return response()->json([
                 'status' => 1, 'msg' => 'data berhasil di tambahkan'
@@ -153,9 +157,9 @@ class Crud_pegawaiController extends Controller
         //
         try {
             if (is_array($id)) {
-                Crud_pegawai::whereIn('id', $id)->delete();
+                Crud_pegawai::whereIn('nip', $id)->delete();
             } else {
-                Crud_pegawai::whereId($id)->delete();
+                Crud_pegawai::where('nip', $id)->delete();
                 return response()->json([
                     'status' => 1, 'msg' => 'data berhasil di hapus'
                 ]);
