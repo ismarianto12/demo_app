@@ -132,7 +132,9 @@ class Crud_pegawaiController extends Controller
         try {
             $d = Crud_pegawai::where('nip', $id)->update([
                 'nip' => $this->request->nip,
-                'divisi' => $this->request->divisi
+                'divisi' => $this->request->divisi,
+                'nama' => $this->request->nama
+
             ]);
 
             return response()->json([
